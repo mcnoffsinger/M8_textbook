@@ -23,6 +23,10 @@ let pokerGame = {
 function pokerCard(cardSuit,cardRank){
    this.suit = cardSuit
    this.rank = cardRank
+
+}
+pokerCard.prototype.cardImage = function(){return this.rank + "_" 
+   + this.suit + ".png";
 }
 function pokerDeck() {
    let suits = ["clubs","diamonds","hearts","spades"]
@@ -30,16 +34,26 @@ function pokerDeck() {
    this.cards = []
    for (let i = 0;i<4;i++){
       for (let j = 0; j<13;j++){
-         this.cards.push (new pokerCard(suits[i], ranks[j]))
+         this.cards.push (new pokerCard(suits[i], ranks[j]));
       }
    }
    this.shuffle = function(){
       this.cards.sort(function(){
-         return 0.5-Math.random();//////////////////////////////page 322
+         return 0.5-Math.random();
       })
+      console.log(this.cards)
+   }
+   this.dealTo = function(pokerHand){
+      let cardsDealt = pokerHand.cards.length;
+      pokerHand.cards = this.cards.splice(0,cardsDealt);
    }
 }
-
+function pokerHand(handLength){
+   this.cards = new Array(handLength)
+}
+pokerHand.prototype.replaceCard = function(index, pokerDeck){
+   this.cards[index] = pokerDeck.cards.shift();
+}
 
 
 

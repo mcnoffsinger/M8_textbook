@@ -22,6 +22,8 @@ function playDrawPoker() {
    let betSelection = document.getElementById("bet");
    let bankBox = document.getElementById("bank");
    let cardImages = document.querySelectorAll("img.cardImg");
+
+   
    pokerGame.currentBank = 500
    pokerGame.currentBet = 25
 
@@ -34,17 +36,7 @@ function playDrawPoker() {
 
   
 
-   for (let i = 0; i< cardImages.length;i++){
-      cardImages[i].src = myHand.cards[i].cardImage()
-
-      cardImages[i].onclick = function(){
-         if (this.src.includes("cardback.png")){
-            this.src = myHand.cards[i].cardImage()
-         }else{
-            this.src = "cardback.png";
-         }
-      }
-   }
+   
 
 
 
@@ -54,6 +46,7 @@ function playDrawPoker() {
     
    
       dealButton.addEventListener("click", function() {
+         //document.write("fuck")
 
       if (pokerGame.currentBank >= pokerGame.currentBet) {
 
@@ -64,12 +57,26 @@ function playDrawPoker() {
          standButton.disabled = false;      // Turn on the Stand Button
          statusBox.textContent = "";        // Erase any status messages
          bankBox.value = pokerGame.placeBet()
+
+         
          
          if (myDeck.cards.length < 10){
             myDeck = new pokerDeck
             myDeck.shuffle()
          }
          myDeck.dealTo(myHand)
+         
+         for (let i = 0; i< cardImages.length;i++){
+            cardImages[i].src = myHand.cards[i].cardImage()
+            
+            cardImages[i].onclick = function(){
+               if (this.src.includes("cardback.png")){
+                  this.src = myHand.cards[i].cardImage()
+               }else{
+                  this.src = "cardback.png"
+               }
+            }
+         }
 
 
       }else{
@@ -91,7 +98,8 @@ function playDrawPoker() {
             cardImages[i].src = myHand.cards[i].cardImage()
          }
       }
-
+      statusBox.textContent = myHand.getHandValue()
+      bankBox.value = pokerGame.payBet(statusBox.textContent)
 
    });
    
@@ -103,6 +111,9 @@ function playDrawPoker() {
       drawButton.disabled = true;         // Turn off the Draw button
       standButton.disabled = true;        // Turn off the Stand Button  
 
+
+      statusBox.textContent = myHand.getHandValue()
+      bankBox.value = pokerGame.payBet(statusBox.textContent)
     
    });
    

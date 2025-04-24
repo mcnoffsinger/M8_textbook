@@ -19,14 +19,30 @@ let pokerGame = {
       this.currentBank -= this.currentBet
       return this.currentBank
    },
+   payBet: function(type){
+      let pay = 0
+      switch(type){
+         case "Royal Flush":pay=250;break;
+         case "Straight Flush":pay=50;break;
+         case "Four of a Kind":pay=25;break;
+         case "Full House":pay=9;break;
+         case "Flush":pay = 6;break;
+         case "Straight":pay = 4;break;
+         case "Three of a Kind":pay=3;break;
+         case "Two Pair":pay = 2; break;
+         case "Jacks or Better": pay = 1;break;
+      }
+      this.currentBank += pay*this.currentBet;
+      return this.currentBank
+   }
 }
 function pokerCard(cardSuit,cardRank){
    this.suit = cardSuit
    this.rank = cardRank
 
 }
-pokerCard.prototype.cardImage = function(){return this.rank + "_" 
-   + this.suit + ".png";
+pokerCard.prototype.cardImage = function(){
+   return this.rank + "_" + this.suit + ".png";
 }
 function pokerDeck() {
    let suits = ["clubs","diamonds","hearts","spades"]
@@ -41,47 +57,21 @@ function pokerDeck() {
       this.cards.sort(function(){
          return 0.5-Math.random();
       })
-      console.log(this.cards)
+      
    }
    this.dealTo = function(pokerHand){
       let cardsDealt = pokerHand.cards.length;
       pokerHand.cards = this.cards.splice(0,cardsDealt);
-   }
-}
+   };
+};
 function pokerHand(handLength){
    this.cards = new Array(handLength)
 }
 pokerHand.prototype.replaceCard = function(index, pokerDeck){
    this.cards[index] = pokerDeck.cards.shift();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   
+pokerHand.prototype.getHandValue = function(){
+   return handType(this)
    /* ------------------------------------------------+
    | The handType() function returns a text string of |
    | the type of hand held by 5-card poker hand.      |
@@ -195,6 +185,38 @@ pokerHand.prototype.replaceCard = function(index, pokerDeck){
    /* ------------------------------------------------+
    |             End of the  handType() function      |
    +-------------------------------------------------*/   
+}
+/////////////////////HANDTYPE///////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+   
  
  
  
